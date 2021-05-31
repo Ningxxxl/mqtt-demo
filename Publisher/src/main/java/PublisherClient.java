@@ -13,13 +13,15 @@ import java.util.concurrent.CompletableFuture;
 public class PublisherClient {
     private static String SERVER_HOST = "127.0.0.1";
     private static int SERVER_PORT = 1883;
+    private static String TOPIC = "default/topic";
 
     private static Mqtt3AsyncClient client;
 
     public static void main(String[] args) {
-        if (args.length >= 2) {
+        if (args.length >= 3) {
             SERVER_HOST = args[0];
             SERVER_PORT = Integer.parseInt(args[1]);
+            TOPIC = args[2];
         }
         configClient();
 
@@ -48,7 +50,7 @@ public class PublisherClient {
 
     private static CompletableFuture<Mqtt3Publish> sendMsg(String payloadString) {
         return client.publishWith()
-                .topic("test/topic")
+                .topic(TOPIC)
                 .payload(payloadString.getBytes())
                 .retain(true)
                 .send();

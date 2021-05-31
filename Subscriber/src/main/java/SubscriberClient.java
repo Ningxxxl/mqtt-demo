@@ -13,6 +13,7 @@ import java.util.function.Consumer;
 public class SubscriberClient {
     private static String SERVER_HOST = "127.0.0.1";
     private static int SERVER_PORT = 1883;
+    private static String TOPIC = "default/topic";
 
     private static Mqtt3AsyncClient client;
     private static final Consumer<Mqtt3Publish> RECEIVE_CALLBACK;
@@ -26,15 +27,16 @@ public class SubscriberClient {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        if (args.length >= 2) {
+        if (args.length >= 3) {
             SERVER_HOST = args[0];
             SERVER_PORT = Integer.parseInt(args[1]);
+            TOPIC = args[2];
         }
         configClient();
 
         client.connect();
         client.subscribeWith()
-                .topicFilter("test/topic")
+                .topicFilter(TOPIC)
                 .qos(MqttQos.AT_LEAST_ONCE)
                 .callback(RECEIVE_CALLBACK)
                 .send();
