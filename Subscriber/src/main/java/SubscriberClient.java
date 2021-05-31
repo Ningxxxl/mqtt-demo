@@ -1,3 +1,4 @@
+import com.hivemq.client.mqtt.MqttClientState;
 import com.hivemq.client.mqtt.datatypes.MqttQos;
 import com.hivemq.client.mqtt.mqtt3.Mqtt3AsyncClient;
 import com.hivemq.client.mqtt.mqtt3.Mqtt3Client;
@@ -5,6 +6,7 @@ import com.hivemq.client.mqtt.mqtt3.message.publish.Mqtt3Publish;
 
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 /**
@@ -26,7 +28,7 @@ public class SubscriberClient {
         };
     }
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         if (args.length >= 3) {
             SERVER_HOST = args[0];
             SERVER_PORT = Integer.parseInt(args[1]);
@@ -50,5 +52,31 @@ public class SubscriberClient {
                 .addConnectedListener(context -> System.out.println("connected"))
                 .addDisconnectedListener(context -> System.out.println("disconnected"))
                 .buildAsync();
+        Runtime.getRuntime().addShutdownHook(GracefulExit.of(client));
+    }
+
+    static class GracefulExit extends Thread {
+        private final Mqtt3AsyncClient client;
+
+        public static GracefulExit of(Mqtt3AsyncClient client) {
+            return new GracefulExit(client);
+        }
+
+        public GracefulExit(Mqtt3AsyncClient client) {
+            this.client = client;
+        }
+
+        @Override
+        public void run() {
+            System.out.println("Try to exit graceful...");
+
+            if (!MqttClientState.DISCONNECTED.equals(client.getState())) {
+                CompletableFuture<Void> future = client.disconnect();
+                while (!future.isDone() && !future.isCancelled()) {};
+            }
+
+            System.out.println("Client Status: " + client.getState());
+            System.out.println("👋🏻Bye!");
+        }
     }
 }
