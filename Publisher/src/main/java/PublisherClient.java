@@ -27,6 +27,7 @@ public class PublisherClient {
 
         CompletableFuture<Mqtt3ConnAck> connect = client.connect();
         Scanner scanner = new Scanner(System.in);
+        System.out.print(">>> ");
         while (scanner.hasNext()) {
             System.out.print(">>> ");
             String s = scanner.nextLine();

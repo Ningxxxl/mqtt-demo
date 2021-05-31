@@ -68,7 +68,7 @@ public class SubscriberClient {
 
         @Override
         public void run() {
-            System.out.println("Try to exit graceful...");
+            System.out.println("\nTry to exit graceful...");
 
             if (!MqttClientState.DISCONNECTED.equals(client.getState())) {
                 CompletableFuture<Void> future = client.disconnect();
@@ -76,7 +76,7 @@ public class SubscriberClient {
             }
 
             System.out.println("Client Status: " + client.getState());
-            System.out.println("👋🏻Bye!");
+            System.out.println("\n👋🏻Bye!");
         }
     }
 }
