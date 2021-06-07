@@ -20,11 +20,11 @@ public class SimplePublisher {
              OutputStream os = socket.getOutputStream();
              InputStream is = socket.getInputStream();
         ) {
-            sendRequest(os, MqttSegment.createConnectionSeg());
+            sendRequest(os, MqttConnectSegment.create().toByteArray());
             String response = readResponse(is);
             System.out.println("res1 >>> \n" + response);
 
-            sendRequest(os, MqttSegment.createPublishSeg("NINGXXXL"));
+            sendRequest(os, MqttPublishSegment.create("default/topic", "lalala").toByteArray());
 //            response = readResponse(is);
 //            System.out.println("res2 >>> \n" + response);
         }

@@ -8,7 +8,9 @@ import com.google.common.primitives.Bytes;
  */
 public class PublishVariableHeader {
     private String topicName;
-    // 暂时无效，固定为0，太难写了...
+    /**
+     * 暂时无效，固定为0，太难写了...
+     */
     private byte qosType = 0;
 
     private byte[] topicNameBytes;
@@ -28,11 +30,6 @@ public class PublishVariableHeader {
 
     public byte[] serializeToByteArray() {
         return Bytes.concat(topicNameBytes);
-    }
-
-    public static void main(String[] args) {
-        PublishVariableHeader publishVariableHeader = PublishVariableHeader.of("default/topic", (byte) 0);
-        System.out.println(BaseEncoding.base16().encode(publishVariableHeader.serializeToByteArray()));
     }
 
     private void computeTopicNameBytes() {

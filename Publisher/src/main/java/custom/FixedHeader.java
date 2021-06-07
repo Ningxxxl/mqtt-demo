@@ -48,8 +48,3 @@ public class FixedHeader {
         this.remainingLengthBytes = remainingLengthBytes;
     }
 }
-
-class ControlPacketType {
-    public static final byte CONNECT = 0b0001_0000;
-    public static final byte PUBLISH = 0b0100_0000;
-}

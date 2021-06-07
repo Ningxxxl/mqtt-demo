@@ -1,10 +1,7 @@
 package custom;
 
-import com.google.common.io.BaseEncoding;
 import com.google.common.primitives.Bytes;
 import com.google.common.primitives.Shorts;
-
-import java.util.Arrays;
 
 /**
  * @author ningxy
@@ -34,11 +31,8 @@ public class ConnectVariableHeader {
                 PROTOCOL_NAME_BYTES,
                 new byte[]{PROTOCOL_LEVEL_BYTE},
                 new byte[]{CONNECT_FLAG_BITS},
-                Shorts.toByteArray(KEEP_ALIVE_BYTE));
-    }
-
-    public static void main(String[] args) {
-        System.out.println(BaseEncoding.base16().encode(toByteArray()));
+                Shorts.toByteArray(KEEP_ALIVE_BYTE)
+        );
     }
 }
 
@@ -47,12 +41,14 @@ class ConnectFlags {
     private static final byte QOS_1 = 0b000_01_000 & 0xFF;
     private static final byte QOS_2 = 0b000_10_000 & 0xFF;
 
-    // 这里必须强转，为1的话超过了 signed byte 范围
-    public static final byte USERNAME_FLAG = (byte) (0b0_0000000 & 0xFF);
-    public static final byte PASSWORD_FLAG = 0b0_0_000000 & 0xFF;
-    public static final byte WILL_RETAIN_FLAG = 0b00_0_00000 & 0xFF;
+    /**
+     * 这里必须强转，为1的话超过了 signed byte 范围
+     */
+    public static final byte USERNAME_FLAG = (byte) (0b1_0000000 & 0xFF);
+    public static final byte PASSWORD_FLAG = 0b0_1_000000 & 0xFF;
+    public static final byte WILL_RETAIN_FLAG = 0b00_1_00000 & 0xFF;
     public static final byte WILL_QOS_FLAG = QOS_0;
-    public static final byte WILL_FLAG = 0b00000_0_00 & 0xFF;
+    public static final byte WILL_FLAG = 0b00000_1_00 & 0xFF;
     public static final byte CLEAN_SESSION = 0b000000_1_0 & 0xFF;
     public static final byte RESERVED = 0b0000000_0 & 0xFF;
 
