@@ -1,20 +1,14 @@
 package custom;
 
-import com.google.common.io.BaseEncoding;
 import custom.base.PackageHandler;
-import custom.connect.MqttConnectSegment;
-import custom.publish.MqttPublishSegment;
-import custom.subscribe.MqttSubscribeSegment;
-import custom.subscribe.SubscribeHeader;
-import custom.subscribe.SubscribePacketPayload;
-import custom.subscribe.SubscribeVariableHeader;
+import custom.connect.MqttConnectPackage;
+import custom.subscribe.MqttSubscribePackage;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.util.Scanner;
 
 /**
  * @author ningxy
@@ -30,13 +24,11 @@ public class SimpleSubscriber {
                 OutputStream os = socket.getOutputStream();
                 InputStream is = socket.getInputStream();
         ) {
-            sendRequest(os, MqttConnectSegment.create().toByteArray());
-            byte[] connectResp = readResponse(is);
-//            System.out.println("CONNECT RESPONSE [CONNACK] [HEX] => " + BaseEncoding.base16().encode(connectResp));
+            sendRequest(os, MqttConnectPackage.create().toByteArray());
+            readResponse(is);
 
-            sendRequest(os, MqttSubscribeSegment.create(TOPIC, (byte) 1).toByteArray());
-            byte[] subscribeResp = readResponse(is);
-//            System.out.println("CONNECT RESPONSE [PUBACK]  [HEX] => " + BaseEncoding.base16().encode(subscribeResp));
+            sendRequest(os, MqttSubscribePackage.create(TOPIC, (byte) 1).toByteArray());
+            readResponse(is);
 
             while (true) {
                 readResponse(is);

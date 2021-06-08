@@ -1,8 +1,8 @@
 package custom;
 
 import com.google.common.io.BaseEncoding;
-import custom.connect.MqttConnectSegment;
-import custom.publish.MqttPublishSegment;
+import custom.connect.MqttConnectPackage;
+import custom.publish.MqttPublishPackage;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -26,7 +26,7 @@ public class SimplePublisher {
                 InputStream is = socket.getInputStream();
                 Scanner scanner = new Scanner(System.in);
         ) {
-            sendRequest(os, MqttConnectSegment.create().toByteArray());
+            sendRequest(os, MqttConnectPackage.create().toByteArray());
             byte[] response = readResponse(is);
             System.out.println("CONNECT RESPONSE [HEX] => " + BaseEncoding.base16().encode(response));
 
@@ -37,7 +37,7 @@ public class SimplePublisher {
                 if ("exit".equalsIgnoreCase(s)) {
                     break;
                 }
-                sendRequest(os, MqttPublishSegment.create("default/topic", s).toByteArray());
+                sendRequest(os, MqttPublishPackage.create("default/topic", s).toByteArray());
             }
 
 //            response = readResponse(is);

@@ -1,16 +1,16 @@
 package custom.connect;
 
-import custom.base.MqttSegment;
+import custom.base.MqttPackage;
 
 /**
  * @author ningxy
  */
-public class MqttConnectSegment extends MqttSegment {
-    private MqttConnectSegment() {
+public class MqttConnectPackage extends MqttPackage {
+    private MqttConnectPackage() {
     }
 
-    public static MqttConnectSegment create() {
-        MqttConnectSegment connectSegment = new MqttConnectSegment();
+    public static MqttConnectPackage create() {
+        MqttConnectPackage connectSegment = new MqttConnectPackage();
 
         connectSegment.setVariableHeader(ConnectVariableHeader.toByteArray());
         connectSegment.setPayload(ClientID.toByteArray());

@@ -6,7 +6,7 @@ import com.google.common.primitives.Bytes;
 /**
  * @author ningxy
  */
-public abstract class MqttSegment {
+public abstract class MqttPackage {
     private byte[] fixedHeader;
     private byte[] variableHeader;
     private byte[] payload;

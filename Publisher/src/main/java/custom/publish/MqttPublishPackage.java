@@ -1,16 +1,16 @@
 package custom.publish;
 
-import custom.base.MqttSegment;
+import custom.base.MqttPackage;
 
 /**
  * @author ningxy
  */
-public class MqttPublishSegment extends MqttSegment {
-    private MqttPublishSegment() {
+public class MqttPublishPackage extends MqttPackage {
+    private MqttPublishPackage() {
     }
 
-    public static MqttPublishSegment create(String topicName, String message) {
-        MqttPublishSegment publishSegment = new MqttPublishSegment();
+    public static MqttPublishPackage create(String topicName, String message) {
+        MqttPublishPackage publishSegment = new MqttPublishPackage();
 
         publishSegment.setVariableHeader(PublishVariableHeader.of(topicName, (byte) 0).serializeToByteArray());
         publishSegment.setPayload(Message.of(message).serializeToByteArray());

@@ -1,16 +1,16 @@
 package custom.subscribe;
 
-import custom.base.MqttSegment;
+import custom.base.MqttPackage;
 
 /**
  * @author ningxy
  */
-public class MqttSubscribeSegment extends MqttSegment {
-    private MqttSubscribeSegment() {
+public class MqttSubscribePackage extends MqttPackage {
+    private MqttSubscribePackage() {
     }
 
-    public static MqttSubscribeSegment create(String topicName, byte qos) {
-        MqttSubscribeSegment subscribeSegment = new MqttSubscribeSegment();
+    public static MqttSubscribePackage create(String topicName, byte qos) {
+        MqttSubscribePackage subscribeSegment = new MqttSubscribePackage();
 
         subscribeSegment.setVariableHeader(SubscribeVariableHeader.of().toByteArray());
         subscribeSegment.setPayload(SubscribePacketPayload.of(topicName, (byte) 0).serializeToByteArray());

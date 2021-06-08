@@ -2,6 +2,7 @@ package custom.base;
 
 import com.google.common.io.BaseEncoding;
 import com.google.common.primitives.Ints;
+import custom.ControlPacketTypeEnum;
 
 import java.nio.charset.StandardCharsets;
 import java.util.AbstractMap;
@@ -14,7 +15,7 @@ public class PackageHandler {
     public static void resolve(byte[] rawBytes) {
         while (rawBytes.length > 0) {
             String rawBytesHexString = BaseEncoding.base16().encode(rawBytes);
-            int controlPacketType = getControlPacketType(rawBytes[0]);
+            ControlPacketTypeEnum controlPacketType = getControlPacketType(rawBytes[0]);
             AbstractMap.SimpleEntry<Integer, Integer> entry = getPackageLength(rawBytes);
             int packageLength = entry.getKey();
             int remainingLength = entry.getValue();
@@ -22,9 +23,9 @@ public class PackageHandler {
             System.out.println();
             System.out.printf(" ==================== Handle Response Package ==================== %n");
             System.out.printf(" RawBytes(Hex): %s %n", rawBytesHexString);
-            System.out.printf(" ControlPacketType = %d %n", controlPacketType);
+            System.out.printf(" ControlPacketType = %s %n", controlPacketType);
 
-            if (controlPacketType == 3) {
+            if (controlPacketType.equals(ControlPacketTypeEnum.PUBLISH)) {
                 handlePublishPacket(rawBytes, remainingLength);
             }
 
@@ -35,8 +36,9 @@ public class PackageHandler {
         }
     }
 
-    private static int getControlPacketType(byte byte1) {
-        return ((byte1 >>> 4) & 0b0000_1111);
+    private static ControlPacketTypeEnum getControlPacketType(byte byte1) {
+        int typeCode = ((byte1 >>> 4) & 0b0000_1111);
+        return ControlPacketTypeEnum.getByCode(typeCode);
     }
 
     private static AbstractMap.SimpleEntry<Integer, Integer> getPackageLength(byte[] rawBytes) {
