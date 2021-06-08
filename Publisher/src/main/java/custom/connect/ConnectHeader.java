@@ -1,4 +1,6 @@
-package custom;
+package custom.connect;
+
+import custom.base.FixedHeader;
 
 /**
  * @author ningxy

@@ -1,6 +1,8 @@
 package custom;
 
 import com.google.common.io.BaseEncoding;
+import custom.connect.MqttConnectSegment;
+import custom.publish.MqttPublishSegment;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

@@ -1,6 +1,5 @@
-package custom;
+package custom.publish;
 
-import com.google.common.io.BaseEncoding;
 import com.google.common.primitives.Bytes;
 
 /**

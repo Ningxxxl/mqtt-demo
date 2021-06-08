@@ -1,4 +1,6 @@
-package custom;
+package custom.publish;
+
+import custom.base.MqttSegment;
 
 /**
  * @author ningxy

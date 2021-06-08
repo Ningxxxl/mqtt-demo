@@ -1,4 +1,4 @@
-package custom;
+package custom.connect;
 
 import com.google.common.primitives.Bytes;
 import com.google.common.primitives.Shorts;

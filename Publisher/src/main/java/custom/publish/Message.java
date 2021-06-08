@@ -1,4 +1,4 @@
-package custom;
+package custom.publish;
 
 /**
  * @author ningxy
