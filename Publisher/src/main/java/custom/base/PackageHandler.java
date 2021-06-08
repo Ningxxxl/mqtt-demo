@@ -3,6 +3,7 @@ package custom.base;
 import com.google.common.io.BaseEncoding;
 import com.google.common.primitives.Ints;
 
+import java.nio.charset.StandardCharsets;
 import java.util.AbstractMap;
 import java.util.Arrays;
 
@@ -52,7 +53,7 @@ public class PackageHandler {
         int messageLength = remainingLength - 2 - topicNameLength;
 
         String topicName = new String(rawBytes, offset + 2, topicNameLength);
-        String message = new String(rawBytes, offset + 2 + topicNameLength, messageLength);
+        String message = new String(rawBytes, offset + 2 + topicNameLength, messageLength, StandardCharsets.UTF_8);
 
         System.out.printf(" Topic Name        = %s %n", topicName);
         System.out.printf(" Message           = %s %n", message);
