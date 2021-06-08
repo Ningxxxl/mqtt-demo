@@ -1,11 +1,13 @@
 package custom;
 
+import com.google.common.io.BaseEncoding;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
+import java.util.Scanner;
 
 /**
  * @author ningxy
@@ -16,21 +18,32 @@ public class SimplePublisher {
 
     public static void main(String[] args) throws IOException {
 
-        try (Socket socket = new Socket(hostName, hostPort);
-             OutputStream os = socket.getOutputStream();
-             InputStream is = socket.getInputStream();
+        try (
+                Socket socket = new Socket(hostName, hostPort);
+                OutputStream os = socket.getOutputStream();
+                InputStream is = socket.getInputStream();
+                Scanner scanner = new Scanner(System.in);
         ) {
             sendRequest(os, MqttConnectSegment.create().toByteArray());
-            String response = readResponse(is);
-            System.out.println("res1 >>> \n" + response);
+            byte[] response = readResponse(is);
+            System.out.println("CONNECT RESPONSE [HEX] => " + BaseEncoding.base16().encode(response));
 
-            sendRequest(os, MqttPublishSegment.create("default/topic", "lalala").toByteArray());
+            System.out.print(">>> ");
+            while (scanner.hasNext()) {
+                System.out.print(">>> ");
+                String s = scanner.nextLine();
+                if ("exit".equalsIgnoreCase(s)) {
+                    break;
+                }
+                sendRequest(os, MqttPublishSegment.create("default/topic", s).toByteArray());
+            }
+
 //            response = readResponse(is);
 //            System.out.println("res2 >>> \n" + response);
         }
     }
 
-    private static String readResponse(InputStream is) throws IOException {
+    private static byte[] readResponse(InputStream is) throws IOException {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         byte[] buffer = new byte[1024];
         int count = 0;
@@ -40,7 +53,7 @@ public class SimplePublisher {
                 bos.write(buffer, 0, count);
             }
         } while (is.available() != 0);
-        return bos.toString(StandardCharsets.UTF_8.name());
+        return bos.toByteArray();
     }
 
     private static void sendRequest(OutputStream os, byte[] dataBytes) throws IOException {
