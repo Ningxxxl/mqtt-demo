@@ -11,6 +11,7 @@
     <modules>
         <module>Publisher</module>
         <module>Subscriber</module>
+        <module>my-client</module>
     </modules>
 
     <properties>
