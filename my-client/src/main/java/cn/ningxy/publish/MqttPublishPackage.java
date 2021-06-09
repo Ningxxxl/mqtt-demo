@@ -19,7 +19,7 @@ public class MqttPublishPackage extends MqttPackage {
     public static MqttPublishPackage create(String topicName, String message) {
         MqttPackageVariableHeader variableHeader = PublishVariableHeader.of(topicName, (byte) 0);
         MqttPackagePayload payload = Message.of(message);
-        MqttPackageFixedHeader fixedHeader = ConnectHeader.of(variableHeader, payload);
+        MqttPackageFixedHeader fixedHeader = PublishHeader.of(variableHeader, payload, (byte) 1, false);
         return new MqttPublishPackage(fixedHeader, variableHeader, payload);
     }
 }

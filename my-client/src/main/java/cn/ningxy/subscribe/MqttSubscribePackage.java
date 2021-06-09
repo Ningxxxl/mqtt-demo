@@ -17,7 +17,7 @@ public class MqttSubscribePackage extends MqttPackage {
     public static MqttSubscribePackage create(String topicName, byte qos) {
         MqttPackageVariableHeader variableHeader = SubscribeVariableHeader.ofRandom();
         MqttPackagePayload payload = SubscribePacketPayload.of(topicName, (byte) 0);
-        MqttPackageFixedHeader fixedHeader = ConnectHeader.of(variableHeader, payload);
+        MqttPackageFixedHeader fixedHeader = SubscribeHeader.of(variableHeader, payload);
 
         return new MqttSubscribePackage(fixedHeader, variableHeader, payload);
     }

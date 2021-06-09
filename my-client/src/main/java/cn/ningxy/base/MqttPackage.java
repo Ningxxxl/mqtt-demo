@@ -18,7 +18,8 @@ public abstract class MqttPackage implements ByteArraySerializable {
 
     @Override
     public byte[] toByteArray() {
-        return Bytes.concat(fixedHeader.toByteArray(), variableHeader.toByteArray(), payload.toByteArray());
+        byte[] bytes = payload.toByteArray();
+        return Bytes.concat(fixedHeader.toByteArray(), variableHeader.toByteArray(), bytes);
     }
 
     public int getRemainingLength() {

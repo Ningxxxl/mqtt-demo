@@ -1,4 +1,4 @@
-package cn.ningxy;
+package cn.ningxy.client;
 
 import cn.ningxy.publish.MqttPublishPackage;
 import com.google.common.io.BaseEncoding;
@@ -15,21 +15,12 @@ import java.util.Scanner;
  */
 public class SimplePublisher extends MqttClient {
 
-    public SimplePublisher(String hostName, int hostPort) {
-        super(hostName, hostPort);
-    }
-
-    public static void main(String[] args) throws IOException {
-        if (args.length < 2) {
-            System.out.println("参数 <host> <port>");
-            throw new IllegalArgumentException("参数有误");
-        }
-        SimplePublisher simplePublisher = new SimplePublisher(args[0], Integer.parseInt(args[1]));
-        simplePublisher.work();
+    public SimplePublisher(String hostName, int hostPort, String topicName) {
+        super(hostName, hostPort, topicName);
     }
 
     @Override
-    protected void work() throws IOException {
+    public void work() throws IOException {
         try (
                 Socket socket = new Socket(getHostName(), getHostPort());
                 OutputStream os = socket.getOutputStream();
@@ -37,8 +28,7 @@ public class SimplePublisher extends MqttClient {
                 Scanner scanner = new Scanner(System.in);
         ) {
             sendRequest(os, MqttConnectPackage.create().toByteArray());
-            byte[] response = readResponse(is);
-            System.out.println("CONNECT RESPONSE [HEX] => " + BaseEncoding.base16().encode(response));
+            readResponse(is);
 
             System.out.print(">>> ");
             while (scanner.hasNext()) {
@@ -47,7 +37,8 @@ public class SimplePublisher extends MqttClient {
                 if ("exit".equalsIgnoreCase(s)) {
                     break;
                 }
-                sendRequest(os, MqttPublishPackage.create("default/topic", s).toByteArray());
+                MqttPublishPackage mqttPublishPackage = MqttPublishPackage.create(getTopicName(), s);
+                sendRequest(os, mqttPublishPackage.toByteArray());
             }
         }
     }

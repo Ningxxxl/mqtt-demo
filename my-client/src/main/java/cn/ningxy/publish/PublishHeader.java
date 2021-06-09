@@ -1,6 +1,8 @@
 package cn.ningxy.publish;
 
 import cn.ningxy.base.MqttPackageFixedHeader;
+import cn.ningxy.base.MqttPackagePayload;
+import cn.ningxy.base.MqttPackageVariableHeader;
 
 /**
  * @author ningxy
@@ -18,7 +20,11 @@ public class PublishHeader extends MqttPackageFixedHeader {
         this.isRetain = isRetain;
     }
 
-    public static PublishHeader of(int remainingLength, byte qosType, boolean isRetain) {
+    public static PublishHeader of(MqttPackageVariableHeader variableHeader,
+                                   MqttPackagePayload payload,
+                                   byte qosType,
+                                   boolean isRetain) {
+        int remainingLength = variableHeader.getByteArrayLength() + payload.getByteArrayLength();
         PublishHeader publishHeader = new PublishHeader(qosType, isRetain);
         publishHeader.computeRemainingLengthBytes(remainingLength);
         byte byte1 = (byte) (CONTROL_PACKET_TYPE_BITS | QOS_TYPE_BITS[qosType]);

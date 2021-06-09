@@ -1,4 +1,6 @@
-package cn.ningxy;
+package cn.ningxy.client;
+
+import cn.ningxy.base.ResponsePackageHandler;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -11,17 +13,12 @@ import java.io.OutputStream;
 public abstract class MqttClient {
     private String hostName = "localhost";
     private int hostPort = 1883;
+    private String topicName = "default/topic";
 
-    public MqttClient() {
-    }
-
-    public MqttClient(int hostPort) {
-        this.hostPort = hostPort;
-    }
-
-    public MqttClient(String hostName, int hostPort) {
+    public MqttClient(String hostName, int hostPort, String topicName) {
         this.hostName = hostName;
         this.hostPort = hostPort;
+        this.topicName = topicName;
     }
 
     protected abstract void work() throws Exception;
@@ -36,7 +33,9 @@ public abstract class MqttClient {
                 bos.write(buffer, 0, count);
             }
         } while (is.available() != 0);
-        return bos.toByteArray();
+        byte[] respBytes = bos.toByteArray();
+        ResponsePackageHandler.resolve(respBytes);
+        return respBytes;
     }
 
     protected static void sendRequest(OutputStream os, byte[] dataBytes) throws IOException {
@@ -58,5 +57,13 @@ public abstract class MqttClient {
 
     public void setHostPort(int hostPort) {
         this.hostPort = hostPort;
+    }
+
+    public String getTopicName() {
+        return topicName;
+    }
+
+    public void setTopicName(String topicName) {
+        this.topicName = topicName;
     }
 }
