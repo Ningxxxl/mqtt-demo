@@ -1,7 +1,7 @@
-package custom.subscribe;
+package cn.ningxy.subscribe;
 
+import cn.ningxy.base.MqttPackageVariableHeader;
 import com.google.common.primitives.Ints;
-import custom.base.MqttPackageVariableHeader;
 
 import java.util.Random;
 

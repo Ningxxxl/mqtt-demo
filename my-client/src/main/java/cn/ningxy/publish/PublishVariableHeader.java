@@ -1,7 +1,7 @@
-package custom.publish;
+package cn.ningxy.publish;
 
 import com.google.common.primitives.Bytes;
-import custom.base.MqttPackageVariableHeader;
+import cn.ningxy.base.MqttPackageVariableHeader;
 
 /**
  * @author ningxy

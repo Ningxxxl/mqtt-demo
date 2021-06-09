@@ -1,6 +1,6 @@
-package custom.subscribe;
+package cn.ningxy.subscribe;
 
-import custom.base.MqttPackageFixedHeader;
+import cn.ningxy.base.MqttPackageFixedHeader;
 
 /**
  * @author ningxy

@@ -1,8 +1,8 @@
-package custom.connect;
+package cn.ningxy.connect;
 
+import cn.ningxy.base.MqttPackageVariableHeader;
 import com.google.common.primitives.Bytes;
 import com.google.common.primitives.Shorts;
-import custom.base.MqttPackageVariableHeader;
 
 /**
  * @author ningxy

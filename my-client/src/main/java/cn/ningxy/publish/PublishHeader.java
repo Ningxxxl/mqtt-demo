@@ -1,6 +1,6 @@
-package custom.publish;
+package cn.ningxy.publish;
 
-import custom.base.MqttPackageFixedHeader;
+import cn.ningxy.base.MqttPackageFixedHeader;
 
 /**
  * @author ningxy

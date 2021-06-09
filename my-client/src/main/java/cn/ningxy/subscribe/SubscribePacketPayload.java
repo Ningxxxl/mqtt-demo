@@ -1,8 +1,8 @@
-package custom.subscribe;
+package cn.ningxy.subscribe;
 
+import cn.ningxy.base.MqttPackagePayload;
 import com.google.common.primitives.Bytes;
 import com.google.common.primitives.Shorts;
-import custom.base.MqttPackagePayload;
 
 /**
  * @author ningxy

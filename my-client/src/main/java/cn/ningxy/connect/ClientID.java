@@ -1,8 +1,8 @@
-package custom.connect;
+package cn.ningxy.connect;
 
 import com.google.common.primitives.Bytes;
 import com.google.common.primitives.Shorts;
-import custom.base.MqttPackagePayload;
+import cn.ningxy.base.MqttPackagePayload;
 
 import java.util.UUID;
 

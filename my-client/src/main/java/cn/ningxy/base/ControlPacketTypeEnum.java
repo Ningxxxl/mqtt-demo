@@ -1,4 +1,4 @@
-package custom.base;
+package cn.ningxy.base;
 
 import java.util.Arrays;
 

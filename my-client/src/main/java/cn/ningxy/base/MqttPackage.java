@@ -1,4 +1,4 @@
-package custom.base;
+package cn.ningxy.base;
 
 import com.google.common.primitives.Bytes;
 
@@ -9,6 +9,12 @@ public abstract class MqttPackage implements ByteArraySerializable {
     private MqttPackageFixedHeader fixedHeader;
     private MqttPackageVariableHeader variableHeader;
     private MqttPackagePayload payload;
+
+    protected MqttPackage(MqttPackageFixedHeader fixedHeader, MqttPackageVariableHeader variableHeader, MqttPackagePayload payload) {
+        this.fixedHeader = fixedHeader;
+        this.variableHeader = variableHeader;
+        this.payload = payload;
+    }
 
     @Override
     public byte[] toByteArray() {

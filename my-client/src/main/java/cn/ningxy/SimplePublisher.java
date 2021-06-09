@@ -1,10 +1,9 @@
-package custom;
+package cn.ningxy;
 
+import cn.ningxy.publish.MqttPublishPackage;
 import com.google.common.io.BaseEncoding;
-import custom.connect.MqttConnectPackage;
-import custom.publish.MqttPublishPackage;
+import cn.ningxy.connect.MqttConnectPackage;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -14,14 +13,25 @@ import java.util.Scanner;
 /**
  * @author ningxy
  */
-public class SimplePublisher {
-    private static String hostName = "localhost";
-    private static int hostPort = 1883;
+public class SimplePublisher extends MqttClient {
+
+    public SimplePublisher(String hostName, int hostPort) {
+        super(hostName, hostPort);
+    }
 
     public static void main(String[] args) throws IOException {
+        if (args.length < 2) {
+            System.out.println("参数 <host> <port>");
+            throw new IllegalArgumentException("参数有误");
+        }
+        SimplePublisher simplePublisher = new SimplePublisher(args[0], Integer.parseInt(args[1]));
+        simplePublisher.work();
+    }
 
+    @Override
+    protected void work() throws IOException {
         try (
-                Socket socket = new Socket(hostName, hostPort);
+                Socket socket = new Socket(getHostName(), getHostPort());
                 OutputStream os = socket.getOutputStream();
                 InputStream is = socket.getInputStream();
                 Scanner scanner = new Scanner(System.in);
@@ -39,27 +49,6 @@ public class SimplePublisher {
                 }
                 sendRequest(os, MqttPublishPackage.create("default/topic", s).toByteArray());
             }
-
-//            response = readResponse(is);
-//            System.out.println("res2 >>> \n" + response);
         }
-    }
-
-    private static byte[] readResponse(InputStream is) throws IOException {
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        byte[] buffer = new byte[1024];
-        int count = 0;
-        do {
-            count = is.read(buffer);
-            if (count != -1) {
-                bos.write(buffer, 0, count);
-            }
-        } while (is.available() != 0);
-        return bos.toByteArray();
-    }
-
-    private static void sendRequest(OutputStream os, byte[] dataBytes) throws IOException {
-        os.write(dataBytes);
-        os.flush();
     }
 }

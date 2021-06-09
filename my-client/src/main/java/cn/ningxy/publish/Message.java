@@ -1,6 +1,6 @@
-package custom.publish;
+package cn.ningxy.publish;
 
-import custom.base.MqttPackagePayload;
+import cn.ningxy.base.MqttPackagePayload;
 
 /**
  * @author ningxy
